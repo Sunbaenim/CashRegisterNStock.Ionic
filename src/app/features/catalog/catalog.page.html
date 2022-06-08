@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="catalog">
+
+    <div class="category-container" *ngFor="let category of catalog">
+      <div class="category">
+        <span>{{category.name}}</span>
+      </div>
+      <div class="products">
+        <div class="product-container" *ngFor="let product of category.products"
+          #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url(' + baseUrl + product.imageURL + ')'}">
+          <div class="product-banner" appResizeToFit>
+            <div class="product-name">
+              <span>{{product.name}}</span>
+            </div>
+            <div class="product-desc">
+              <span>{{product.description}}</span>
+              <span>{{product.price}}€</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
