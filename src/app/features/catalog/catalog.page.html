@@ -4,7 +4,7 @@
 </ion-header>
 
 <ion-content>
-  <div id="catalog">
+  <div id="catalog" *ngIf="catalog">
 
     <div class="category-container" *ngFor="let category of catalog">
       <div class="category">
@@ -12,7 +12,7 @@
       </div>
       <div class="products">
         <div class="product-container" *ngFor="let product of category.products"
-          #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url(' + baseUrl + product.imageURL + ')'}">
+        #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url(' + baseUrl + product.imageUrl + ')'}">
           <div class="product-banner" appResizeToFit>
             <div class="product-name">
               <span>{{product.name}}</span>

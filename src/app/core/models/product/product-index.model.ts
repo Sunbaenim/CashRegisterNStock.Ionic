@@ -2,7 +2,7 @@ export interface ProductIndexModel {
   id: number;
   categoryId: number;
   name: string;
-  imageURL: string;
+  imageUrl: string;
   description: string;
   price: number;
   stock: number;

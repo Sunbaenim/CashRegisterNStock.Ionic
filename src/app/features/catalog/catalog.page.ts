@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { CategoryIndexModel } from './../../core/models/category/category-index.model';
 import { environment } from 'src/environments/environment';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalog',
@@ -10,8 +11,9 @@ import { environment } from 'src/environments/environment';
 })
 export class CatalogPage implements OnInit {
 
-  catalog: CategoryIndexModel[];
+  catalog!: CategoryIndexModel[];
   baseUrl: string = environment.baseUrl;
+  private isModificationModeEnabled: boolean;
 
   constructor(
     private cService: CategoryService
@@ -22,7 +24,11 @@ export class CatalogPage implements OnInit {
   }
 
   initCatalog() {
-    this.cService.getCategoriesWithProducts().subscribe(data => this.catalog = data);
+    this.cService.getCategoriesWithProducts().pipe(first()).subscribe(data => {
+      setTimeout(() => {
+        this.catalog = data;
+      }, 100);
+    });
   }
 
 }
