@@ -1,38 +1,44 @@
-import { Directive, AfterViewInit, ElementRef } from '@angular/core';
+import { Directive, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appResizeToFit]'
 })
 export class ResizeToFitDirective implements AfterViewInit {
 
-  private fontSize: number;
-  private firstChild: HTMLElement;
-  private secondChild: HTMLElement;
-
   constructor(
-    private productBanner: ElementRef
+    private product: ElementRef,
+    private renderer: Renderer2
   ) {}
 
   ngAfterViewInit(): void {
-    this.firstChild = this.productBanner.nativeElement.children[0];
-    this.secondChild = this.productBanner.nativeElement.children[1];
-    this.fontSize = parseFloat(window.getComputedStyle(this.firstChild).fontSize);
-    this.changeHeight();
-    this.changeFontSize();
+    this.checkBannerChilds();
   }
 
-  changeFontSize() {
-    this.fontSize = parseFloat(window.getComputedStyle(this.firstChild).fontSize);
-    if (this.fontSize <= this.firstChild.offsetHeight / 2) {
-      this.firstChild.style.fontSize = (this.fontSize - 1) + 'px';
-      this.changeFontSize();
+  checkBannerChilds() {
+    const productBannerMargin = parseInt(getComputedStyle(this.product.nativeElement.firstChild).getPropertyValue('padding-left'), 10) +
+      parseInt(getComputedStyle(this.product.nativeElement.firstChild).getPropertyValue('padding-right'), 10);
+      const productNameWidth = this.product.nativeElement.firstChild.firstChild.firstChild.offsetWidth;
+      const productNameBannerWidth = this.product.nativeElement.firstChild.offsetWidth - productBannerMargin;
+      const productDescWidth = this.product.nativeElement.firstChild.children[1].firstChild.offsetWidth;
+      const productBannerDescWidth = this.product.nativeElement.firstChild.offsetWidth -
+        this.product.nativeElement.firstChild.children[1].children[1].offsetWidth - productBannerMargin;
+    if (productNameWidth >= productNameBannerWidth - 1) {
+      this.changeFontSize(this.product.nativeElement.firstChild.children[0]);
+    } else if (productDescWidth >= productBannerDescWidth - 1) {
+      this.changeFontSize(this.product.nativeElement.firstChild.children[1]);
     }
+    this.changeProductBannerHeight();
   }
 
-  changeHeight() {
-    this.productBanner.nativeElement.style.height =
-    (this.fontSize <= this.firstChild.clientHeight / 2 ? this.firstChild.clientHeight / 2 : this.firstChild.clientHeight)
-    + this.secondChild.clientHeight + 'px';
+  changeFontSize(element: any) {
+    const fontSize = parseFloat(window.getComputedStyle(element.children[0]).fontSize);
+    this.renderer.setStyle(element.firstChild, 'font-size', `${fontSize - 1}px`);
+    this.checkBannerChilds();
   }
 
+  changeProductBannerHeight() {
+    console.log(this.product.nativeElement.firstChild.offsetHeight);
+    this.renderer.setStyle(this.product.nativeElement.firstChild,
+      'height', this.product.nativeElement.offsetHeight * .33 + 'px');
+  }
 }

@@ -12,8 +12,9 @@
       </div>
       <div class="products">
         <div class="product-container" *ngFor="let product of category.products"
-        #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url(' + baseUrl + product.imageUrl + ')'}">
-          <div class="product-banner" appResizeToFit>
+        #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url(' + baseUrl + product.imageUrl + ')'}"
+        appResizeToFit>
+          <div class="product-banner">
             <div class="product-name">
               <span>{{product.name}}</span>
             </div>

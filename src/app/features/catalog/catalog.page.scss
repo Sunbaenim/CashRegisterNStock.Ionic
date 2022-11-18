@@ -23,7 +23,7 @@ ion-toolbar {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-column-gap: 5px;
-  grid-row-gap: 5px;;
+  grid-row-gap: 5px;
 }
 
 .product-container {
@@ -34,6 +34,9 @@ ion-toolbar {
 }
 
 .product-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -44,14 +47,22 @@ ion-toolbar {
 }
 
 .product-name {
+  display: flex;
   font-weight: bold;
 }
 
 .product-desc {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: -1px;
   font-size: $product-desc-font-size;
+}
+
+@media screen and (max-width: 767px) {
+  .product-banner {
+    min-height: 32px;
+  }
 }
 
 @media screen and (min-width: 768px) {
